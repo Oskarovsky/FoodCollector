@@ -54,9 +54,62 @@ func createProduct(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func getOneProduct(w http.ResponseWriter, r *http.Request) {
+	productId := mux.Vars(r)["id"]
+	for _, singleProduct := range products {
+		if singleProduct.ID == productId {
+			json.NewEncoder(w).Encode(singleProduct)
+		}
+	}
+}
+
+func updateProduct(w http.ResponseWriter, r *http.Request) {
+	productId := mux.Vars(r)["id"]
+	var updatedProduct product
+
+	reqBody, error := io.ReadAll(r.Body)
+	if error != nil {
+		fmt.Fprintf(w, "Kindly enter data with the product attributes in order to update")
+	}
+	json.Unmarshal(reqBody, &updatedProduct)
+
+	for i, singleProduct := range products {
+		if singleProduct.ID == productId {
+			singleProduct.Name = updatedProduct.Name
+			singleProduct.Energy = updatedProduct.Energy
+			singleProduct.Protein = updatedProduct.Protein
+			singleProduct.Price = updatedProduct.Price
+			singleProduct.Carbs = updatedProduct.Carbs
+			singleProduct.Fat = updatedProduct.Fat
+			singleProduct.Provider = updatedProduct.Provider
+			products = append(products[:i], singleProduct)
+			json.NewEncoder(w).Encode(singleProduct)
+		}
+	}
+}
+
+func deleteProduct(w http.ResponseWriter, r *http.Request) {
+	productId := mux.Vars(r)["id"]
+
+	for i, singleProduct := range products {
+		if singleProduct.ID == productId {
+			products = append(products[:i], products[i+1:]...)
+			fmt.Fprintf(w, "The product with id %v has been deleted successfully", productId)
+		}
+	}
+}
+
+func getAllProducts(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(products)
+}
+
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homeLink)
-	router.HandleFunc("/product", createProduct)
+	router.HandleFunc("/product", createProduct).Methods("POST")
+	router.HandleFunc("/product", getAllProducts).Methods("GET")
+	router.HandleFunc("/product/{id}", getOneProduct).Methods("GET")
+	router.HandleFunc("/product/{id}", updateProduct).Methods("PATCH")
+	router.HandleFunc("/product/{id}", deleteProduct).Methods("DELETE")
 	log.Fatal(http.ListenAndServe("localhost:8080", router))
 }
