@@ -1,0 +1,45 @@
+# Get a detailed list of nutrition information for each item from an input text query.
+
+# query (required) - a string containing food or drink items.
+# If you wish to calculate a specific quantity, you may prefix a quantity before an item.
+# For example, 3 tomatoes or 1lb beef brisket.
+# If no quantity is specified, the default quantity is 100 grams. Queries cannot exceed 1500 characters.
+
+# @name CalorieNinjas
+GET https://api.calorieninjas.com/v1/nutrition?query=10oz onion and a tomato
+x-api-key: 1JrAmMYwM1Bt1y2TDZkllg==41waHLnFeI6m1gnc
+
+### ------------------
+
+# Get Fruits with given nutrition between min and max parameter. At least one query parameter has to be given.
+# @name Request Fruits information by nutrition value
+GET https://www.fruityvice.com/api/fruit/apple?min=0&max=1000
+
+
+### ------------------
+
+# Get all Fruits available in the database in a list form.
+# @name Request all Fruits
+GET https://www.fruityvice.com/api/fruit/all
+
+### ------------------
+
+# Add a new fruit to the database
+# @name Add a fruit to the database
+PUT https://www.fruityvice.com/api/fruit
+
+{
+    "genus": "Fragaria",
+    "name": "Strawberry",
+    "family": "Rosaceae",
+    "order": "Rosales",
+    "nutritions": {
+        "carbohydrates": 5.5,
+        "protein": 0,
+        "fat": 0.4,
+        "calories": 29,
+        "sugar": 5.4
+    }
+}
+
+###
