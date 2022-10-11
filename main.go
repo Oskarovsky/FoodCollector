@@ -18,6 +18,8 @@ func handleRequest() *mux.Router {
 	router.HandleFunc("/product/{id}", handlers.GetOneProduct).Methods(http.MethodGet)
 	router.HandleFunc("/product/{id}", handlers.UpdateProduct).Methods(http.MethodPatch)
 	router.HandleFunc("/product/{id}", handlers.DeleteProduct).Methods(http.MethodDelete)
+
+	router.HandleFunc("/provider/{providerName}/product/{productName}", handlers.GetProductFromProvider).Methods(http.MethodGet)
 	log.Fatal(http.ListenAndServe("localhost:8080", router))
 	return router
 }

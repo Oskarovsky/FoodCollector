@@ -1,0 +1,6 @@
+GET http://localhost:8080/product/2
+
+### -------
+
+
+GET http://localhost:8080/provider/providerName/product/productName
