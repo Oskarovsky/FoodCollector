@@ -3,4 +3,8 @@ GET http://localhost:8080/product/2
 ### -------
 
 
-GET http://localhost:8080/provider/providerName/product/productName
+GET http://localhost:8080/provider/providerName/product/id/2057648
+
+### -------
+
+GET http://localhost:8080/provider/providerName/product/name/Cheese
